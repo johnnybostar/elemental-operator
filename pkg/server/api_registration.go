@@ -30,6 +30,7 @@ import (
 	values "github.com/rancher/wrangler/v2/pkg/data"
 	"gopkg.in/yaml.v3"
 	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 
 	elementalv1 "github.com/rancher/elemental-operator/api/v1beta1"
@@ -322,6 +323,13 @@ func (i *InventoryServer) handleUpdate(conn *websocket.Conn, protoVersion regist
 }
 
 func (i *InventoryServer) handleGetNetworkConfig(conn *websocket.Conn, inventory *elementalv1.MachineInventory) error {
+	for _, condition := range inventory.Status.Conditions {
+		if condition.Type == elementalv1.ReadyCondition && condition.Status == metav1.ConditionFalse {
+			// TODO: Implement something more graceful to make the elemental-register wait.
+			return fmt.Errorf("inventory is not ready")
+		}
+	}
+
 	networkConfigData, err := json.Marshal(inventory.Spec.Network)
 	if err != nil {
 		return fmt.Errorf("marshalling network config data: %w", err)
