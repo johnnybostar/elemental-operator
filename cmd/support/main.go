@@ -42,6 +42,7 @@ import (
 )
 
 const (
+<<<<<<< HEAD
 	k3sKubeConfig              = "/etc/rancher/k3s/k3s.yaml"
 	k3sKubectl                 = "/usr/local/bin/kubectl"
 	rkeKubeConfig              = "/etc/rancher/rke2/rke2.yaml"
@@ -57,6 +58,21 @@ const (
 	resolvConf                 = "/etc/resolv.conf"
 	oemDir                     = "/oem/"
 	systemOEMDir               = "/system/oem"
+=======
+	k3sKubeConfig         = "/etc/rancher/k3s/k3s.yaml"
+	k3sKubectl            = "/usr/local/bin/kubectl"
+	rkeKubeConfig         = "/etc/rancher/rke2/rke2.yaml"
+	rkeKubectl            = "/var/lib/rancher/rke2/bin/kubectl"
+	elementalAgentPlanDir = "/var/lib/elemental/agent/applied/"
+	rancherAgentPlanDir   = "/var/lib/rancher/agent/applied/"
+	rancherAgentConf      = "/etc/rancher/agent/config.yaml"
+	elementalAgentConf    = "/etc/rancher/elemental/agent/config.yaml"
+	osRelease             = "/etc/os-release"
+	hostnameFile          = "/etc/hostname"
+	resolvConf            = "/etc/resolv.conf"
+	oemDir                = "/oem/"
+	systemOEMDir          = "/system/oem"
+>>>>>>> origin/v1.6.x
 )
 
 type RKEConfig struct {

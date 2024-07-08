@@ -654,10 +654,18 @@ var _ = Describe("handle unmanaged finalizer", func() {
 		mInventory.Annotations[elementalv1.MachineInventoryOSUnmanagedAnnotation] = "true"
 		Expect(cl.Update(ctx, mInventory)).To(Succeed())
 
+<<<<<<< HEAD
 		_, wantPlan, err := r.newUnmanagedResetPlan(ctx)
 		Expect(err).ToNot(HaveOccurred())
 
 		// Check Plan status
+=======
+		wantChecksum, wantPlan, err := r.newUnmanagedResetPlan(ctx)
+		Expect(err).ToNot(HaveOccurred())
+
+		// Check Plan status
+		Expect(mInventory.Status.Plan.Checksum).To(Equal(wantChecksum))
+>>>>>>> origin/v1.6.x
 		Expect(mInventory.Status.Plan.PlanSecretRef.Name).To(Equal(planSecret.Name))
 		Expect(mInventory.Status.Plan.PlanSecretRef.Namespace).To(Equal(planSecret.Namespace))
 		Expect(mInventory.Status.Plan.State).To(Equal(elementalv1.PlanState("")))
@@ -670,9 +678,15 @@ var _ = Describe("handle unmanaged finalizer", func() {
 
 		// Check plan secret was updated
 		Expect(planSecret.Annotations[elementalv1.PlanTypeAnnotation]).To(Equal(elementalv1.PlanTypeReset))
+<<<<<<< HEAD
 		Expect(string(planSecret.Data["plan"])).To(Equal(string(wantPlan)))
 		Expect(string(planSecret.Data["applied-checksum"])).To(Equal(""))
 		Expect(string(planSecret.Data["failed-checksum"])).To(Equal(""))
+=======
+		Expect(planSecret.Data["plan"]).To(Equal(wantPlan))
+		Expect(planSecret.Data["applied-checksum"]).To(Equal([]byte("")))
+		Expect(planSecret.Data["failed-checksum"]).To(Equal([]byte("")))
+>>>>>>> origin/v1.6.x
 
 		// Check we are holding on the MachineInventory (preventing actual deletion)
 		_, err = r.Reconcile(ctx, reconcile.Request{
